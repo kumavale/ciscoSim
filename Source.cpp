@@ -487,19 +487,19 @@ void test() {
 }
 
 int main() {
-	//test();
-	START:
+  //test();
+  while (1) {
 
-	init();
+	  init();
 
-	while (1) {
-		inputConsole(s);
-		checkCommand(s);
-		if (reload) break;
-	}
+	  while (1) {
+	  	inputConsole(s);
+	  	checkCommand(s);
+	  	if (reload) break;
+	  }
 
-	system("cls");
-	goto START;
+	  //system("cls");
+  }
 
 	return 0;
 }

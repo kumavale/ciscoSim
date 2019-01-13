@@ -1,0 +1,9 @@
+switch(mode){
+
+	switch($1){
+
+		...
+
+	}
+
+}
