@@ -93,7 +93,7 @@ void init() {
 			case RETURN:
 				suspend = false;
 				break;
-			case ESC:
+			//case ESC:
       case CTRL_C:
 				exit(0);
 			default:
@@ -278,7 +278,7 @@ void title() {
 		case RETURN:
 			suspend = false;
 			break;
-		case ESC:
+		//case ESC:
     case CTRL_C:
 			exit(0);
 		default:
