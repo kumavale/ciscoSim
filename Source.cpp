@@ -488,18 +488,13 @@ void test() {
 
 int main() {
   //test();
-  while (1) {
-
-	  init();
-
-	  while (1) {
-	  	inputConsole(s);
-	  	checkCommand(s);
-	  	if (reload) break;
-	  }
-
-	  //system("cls");
-  }
+  init();
+	while (1) {
+		inputConsole(s);
+		checkCommand(s);
+		if (reload) init();
+	}
+	//system("cls");
 
 	return 0;
 }
