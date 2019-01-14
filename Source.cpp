@@ -13,80 +13,84 @@ void init() {
 	SetConsoleTitle("ciscoSim");
 
 	// reading and loading to config file
+  // バッファリングしない方がリアルっぽい? endl->\n
 	{
-		cout << "C2960 Boot Loader (C2960-HBOOT-M) Version 12.2(25r)FX, RELEASE SOFTWARE (fc4)" << endl;
-		cout << "Cisco WS-C2960-24TT (RC32300) processor (revision C0) with 21039K bytes of memory." << endl;
-		cout << "2960-24TT starting..." << endl;
+    std::cout
+      << "C2960 Boot Loader (C2960-HBOOT-M) Version 12.2(25r)FX, RELEASE SOFTWARE (fc4)\n"
+		  << "Cisco WS-C2960-24TT (RC32300) processor (revision C0) with 21039K bytes of memory.\n"
+		  << "2960-24TT starting...\n"
 
-		cout << "Base ethernet MAC Address: ";
+		  << "Base ethernet MAC Address: ";
 		for (int i = 3; i < 6; i++) { MACADDR[i] = rand() % 255; }
 		printf("%02X%02X.%02X%02X.%02X%02X\n", MACADDR[0], MACADDR[1], MACADDR[2], MACADDR[3], MACADDR[4], MACADDR[5]);
 
-		cout << "Xmodem file system is available." << endl;
-		cout << "Initializing Flash..." << endl;
-		cout << "flashfs[0]: 1 files, 0 directories" << endl;
-		cout << "flashfs[0]: 0 orphaned files, 0 orphaned directories" << endl;
-		cout << "flashfs[0]: Total bytes: 64016384" << endl;
-		cout << "flashfs[0]: Bytes used: 4414921" << endl;
-		cout << "flashfs[0]: Bytes available: 59601463" << endl;
-		cout << "flashfs[0]: flashfs fsck took 1 seconds." << endl;
-		cout << "...done Initializing Flash.\n" << endl;
+    std::cout
+		  << "Xmodem file system is available.\n"
+		  << "Initializing Flash...\n"
+		  << "flashfs[0]: 1 files, 0 directories\n"
+		  << "flashfs[0]: 0 orphaned files, 0 orphaned directories\n"
+		  << "flashfs[0]: Total bytes: 64016384\n"
+		  << "flashfs[0]: Bytes used: 4414921\n"
+		  << "flashfs[0]: Bytes available: 59601463\n"
+		  << "flashfs[0]: flashfs fsck took 1 seconds.\n"
+		  << "...done Initializing Flash.\n\n"
 
-		cout << "Boot Sector Filesystem (bs:) installed, fsid: 3" << endl;
-		cout << "Parameter Block Filesystem (pb:) installed, fsid: 4\n\n" << endl;
+		  << "Boot Sector Filesystem (bs:) installed, fsid: 3\n"
+		  << "Parameter Block Filesystem (pb:) installed, fsid: 4\n\n\n"
 
-		cout << "Loading \"flash:/c2960-lanbase-mz.122-25.FX.bin\"..." << endl;
-			for (int i = 0; i++ < 74; cout << (i<74?"#":" [OK]\n")) Sleep(32);
-//		cout << "########################################################################## [OK]" << endl;
-		cout << "              Restricted Rights Legend\n" << endl;
+		  << "Loading \"flash:/c2960-lanbase-mz.122-25.FX.bin\"...\n";
+		for (int i = 0; i++ < 74; std::cout << (i<74?"#":" [OK]\n")) Sleep(32);
+    std::cout
+		  << "              Restricted Rights Legend\n\n"
 
-		cout << "Use, duplication, or disclosure by the Government is" << endl;
-		cout << "subject to restrictions as set forth in subparagraph" << endl;
-		cout << "(c) of the Commercial Computer Software - Restricted" << endl;
-		cout << "Rights clause at FAR sec. 52.227-19 and subparagraph" << endl;
-		cout << "(c) (1) (ii) of the Rights in Technical Data and Computer" << endl;
-		cout << "Software clause at DFARS sec. 252.227-7013.\n" << endl;
+		  << "Use, duplication, or disclosure by the Government is\n"
+		  << "subject to restrictions as set forth in subparagraph\n"
+		  << "(c) of the Commercial Computer Software - Restricted\n"
+		  << "Rights clause at FAR sec. 52.227-19 and subparagraph\n"
+		  << "(c) (1) (ii) of the Rights in Technical Data and Computer\n"
+		  << "Software clause at DFARS sec. 252.227-7013.\n\n"
 
-		cout << "           cisco Systems, Inc." << endl;
-		cout << "           170 West Tasman Drive" << endl;
-		cout << "           San Jose, California 95134-1706\n\n\n\n" << endl;
+		  << "           cisco Systems, Inc.\n"
+		  << "           170 West Tasman Drive\n"
+		  << "           San Jose, California 95134-1706\n\n\n\n\n"
 
-		cout << "Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(25)FX, RELEASE SOFTWARE (fc1)" << endl;
-		cout << "Copyright (c) 1986-2005 by Cisco Systems, Inc." << endl;
-		cout << "Compiled Wed 12-Oct-05 22:05 by pt_team" << endl;
-		cout << "Image text-base: 0x80008098, data-base: 0x814129C4\n\n\n" << endl;
+		  << "Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(25)FX, RELEASE SOFTWARE (fc1)\n"
+		  << "Copyright (c) 1986-2005 by Cisco Systems, Inc.\n"
+		  << "Compiled Wed 12-Oct-05 22:05 by pt_team\n"
+		  << "Image text-base: 0x80008098, data-base: 0x814129C4\n\n\n\n"
 
-		cout << "Cisco WS-C2960-24TT (RC32300) processor (revision C0) with 21039K bytes of memory.\n\n" << endl;
+		  << "Cisco WS-C2960-24TT (RC32300) processor (revision C0) with 21039K bytes of memory.\n\n\n"
 
-		cout << "24 FastEthernet/IEEE 802.3 interface(s)" << endl;
-		cout << "2 Gigabit Ethernet/IEEE 802.3 interface(s)\n" << endl;
+		  << "24 FastEthernet/IEEE 802.3 interface(s)\n"
+		  << "2 Gigabit Ethernet/IEEE 802.3 interface(s)\n\n"
 
-		cout << "63488K bytes of flash-simulated non-volatile configuration memory." << endl;
-		cout << "Base ethernet MAC Address       : ";
+		  << "63488K bytes of flash-simulated non-volatile configuration memory.\n"
+		  << "Base ethernet MAC Address       : ";
 		printf("%02X%02X.%02X%02X.%02X%02X\n", MACADDR[0], MACADDR[1], MACADDR[2], MACADDR[3], MACADDR[4], MACADDR[5]);
-		cout << "Motherboard assembly number     : 73-9832-06" << endl;
-		cout << "Power supply part number        : 341-0097-02" << endl;
-		cout << "Motherboard serial number       : FOC103248MJ" << endl;
-		cout << "Power supply serial number      : DCA102133JA" << endl;
-		cout << "Model revision number           : B0" << endl;
-		cout << "Motherboard revision number     : C0" << endl;
-		cout << "Model number                    : WS-C2960-24TT" << endl;
-		cout << "System serial number            : FOC1033Z1EY" << endl;
-		cout << "Top Assembly Part Number        : 800-26671-02" << endl;
-		cout << "Top Assembly Revision Number    : B0" << endl;
-		cout << "Version ID                      : V02" << endl;
-		cout << "CLEI Code Number                : COM3K00BRA" << endl;
-		cout << "Hardware Board Revision Number  : 0x01\n\n" << endl;
+    std::cout
+		  << "Motherboard assembly number     : 73-9832-06\n"
+		  << "Power supply part number        : 341-0097-02\n"
+		  << "Motherboard serial number       : FOC103248MJ\n"
+		  << "Power supply serial number      : DCA102133JA\n"
+		  << "Model revision number           : B0\n"
+		  << "Motherboard revision number     : C0\n"
+		  << "Model number                    : WS-C2960-24TT\n"
+		  << "System serial number            : FOC1033Z1EY\n"
+		  << "Top Assembly Part Number        : 800-26671-02\n"
+		  << "Top Assembly Revision Number    : B0\n"
+		  << "Version ID                      : V02\n"
+		  << "CLEI Code Number                : COM3K00BRA\n"
+		  << "Hardware Board Revision Number  : 0x01\n\n\n"
 
-		cout << "Switch   Ports  Model              SW Version              SW Image" << endl;
-		cout << "------   -----  -----              ----------              ----------" << endl;
-		cout << "*    1   26     WS-C2960-24TT      12.2                    C2960-LANBASE-M\n" << endl;
+		  << "Switch   Ports  Model              SW Version              SW Image\n"
+		  << "------   -----  -----              ----------              ----------\n"
+		  << "*    1   26     WS-C2960-24TT      12.2                    C2960-LANBASE-M\n\n"
 
-		cout << "Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(25)FX, RELEASE SOFTWARE (fc1)" << endl;
-		cout << "Copyright (c) 1986-2005 by Cisco Systems, Inc." << endl;
-		cout << "Compiled Wed 12-Oct-05 22:05 by pt_team\n" << endl;
+		  << "Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(25)FX, RELEASE SOFTWARE (fc1)\n"
+		  << "Copyright (c) 1986-2005 by Cisco Systems, Inc.\n"
+		  << "Compiled Wed 12-Oct-05 22:05 by pt_team\n\n"
 
-		cout << "Press RETURN to get started!\n" << endl;
+		  << "Press RETURN to get started!\n\n";
 		while (suspend) {
 			switch (_getch())
 			{
@@ -101,12 +105,12 @@ void init() {
 			}
 		}
 		suspend = true;
-		cout << endl;
+    std::cout << std::endl;
 	}
 
 	{ // varriable  _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-		if (bunner != "") cout << bunner;
+		if (bunner != "") std::cout << bunner;
 		h = "Switch";
 		mode = USER_EXEC_MODE;
 		PS1 = h + prompto[mode];
@@ -133,20 +137,20 @@ void init() {
 	lastTouch = time(nullptr);
 }
 
-void prediction(string &_s) {
+void prediction(std::string &_s) {
 	// コマンド表から渡された文字列を元に検索し、候補を出力。
 
 
 	// 補完候補が見つからない場合、エラー出力 or ignore ??
 	// if(一致行数 == 0)
 	{
-		cout << "\n\% Unrecognized command" << endl;
+    std::cout << "\n\% Unrecognized command" << std::endl;
 	}
 }
 
-void completion(string &_s) {
+void completion(std::string &_s) {
 	int matchLine = 0;
-	string predicted;
+  std::string predicted;
 
 	{
 		//if(find) matchLine++;
@@ -155,14 +159,14 @@ void completion(string &_s) {
 	}
 }
 
-void inputConsole(string &_s) {
+void inputConsole(std::string &_s) {
 
 	_s.clear();
 	char _c;
 	int cnt = 0;
 	int pLen;
 	int cb;
-	string sb;
+  std::string sb;
 
 
 	PS1 = h + prompto[mode];
@@ -174,7 +178,8 @@ void inputConsole(string &_s) {
     int columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 
 
-	cout << "\r" + PS1;
+	//std::cout << "\r" + PS1;
+    std::cout << PS1;
 
 
 	while (1) {
@@ -189,22 +194,22 @@ void inputConsole(string &_s) {
 							sb = commandBuffer[mode][cb - cnt];
 							curX = sizeof(sb) + pLen;
 							_s = sb;
-							cout << "\r" + loopS(" ", columns - 1);
-							cout << "\r" + PS1 + sb;
+              std::cout << "\r" + loopC(" ", columns - 1);
+              std::cout << "\r" + PS1 + sb;
 						}
 					}
 					else if (_c == DOWN) {
 						if (cnt > 1) {
 							cnt--;
 							sb = commandBuffer[mode][cb - cnt];
-							cout << "\r" + loopS(" ", curX);
-							cout << "\r" + PS1 + sb;
+              std::cout << "\r" + loopC(" ", curX);
+							std::cout << "\r" + PS1 + sb;
 							curX = sizeof(sb) + pLen;
 							_s = sb;
 						}
 						else if (cnt == 1) {
-							cout << "\r" + loopS(" ", columns - 1);
-							cout << "\r" + PS1;
+							std::cout << "\r" + loopC(" ", columns - 1);
+							std::cout << "\r" + PS1;
 							cnt = 0;
 							_s = "";
 						}
@@ -219,34 +224,33 @@ void inputConsole(string &_s) {
 			switch (_c)
 			{
 			case BACK:
-				if ((curX > pLen) && !_s.empty()) {
-					cout << "\b ";
+				//if ((curX > pLen) && !_s.empty()) {
+				if (!_s.empty()) {
+					std::cout << "\b \b";
 					_s.erase(_s.end() - 1);
 					curX--;
-					cout << _c;
 				}
 				break;
 			case COMPLETION: completion(_s); break;
 			case RETURN:
-				cout << endl;
+				std::cout << std::endl;
 				if (s != "") return;
-				cout << PS1;
+				std::cout << PS1;
 				break;
 			case CTRL_C: exit(0); break;
 			default:
         if (_c >= 32 && _c <= 125) {
           _s += _c;
           curX++;
-          cout << _c;
+          std::cout << _c;
           break;
         }
 			}
 			//display(_s);
 
 			if (_c == '?') {
-				//system("pause");
 				prediction(_s);
-				cout << "\b ";
+				//std::cout << "\b ";
 				_s.erase(_s.end() - 1);
 				display(_s);
 				curX--;
@@ -258,20 +262,20 @@ void inputConsole(string &_s) {
 	}
 }
 
-void display(string &_s) {
-	cout << "\r" + PS1 + _s;
+void display(std::string &_s) {
+	std::cout << "\r" + PS1 + _s << std::flush;
 }
 
-string loopS(string _s, const int _n) {
-	string _str;
+std::string loopC(std::string _s, const int _n) {
+  std::string _str;
 	for (int i = 0; i < _n; i++)
 		_str += _s;
 	return _str;
 }
 
 void title() {
-	cout << loopS("\n",10) << "Switch con0 is now available" << endl;
-	cout << loopS("\n",6) << "Press RETURN to get started!" << loopS("\n",12) << endl;
+	std::cout << loopC("\n",10) << "Switch con0 is now available\n";
+	std::cout << loopC("\n",6) << "Press RETURN to get started!" << loopC("\n",13);
 	while (suspend) {
 		switch (_getch())
 		{
@@ -285,18 +289,19 @@ void title() {
 			break;
 		}
 	}
-	cout << endl;
+	std::cout << std::endl;
 	mode = USER_EXEC_MODE;
 	lastTouch = time(nullptr);
 	suspend = true;
 	PS1 = h + prompto[mode];
-	cout << "\r" + PS1;
+	//std::cout << "\r" + PS1;
+	std::cout << PS1;
 }
 
-void checkCommand(string _s) {
+void checkCommand(std::string _s) {
 
 	int i = 0;
-	vector<string> idxBuffer;
+  std::vector<std::string> idxBuffer;
 	invalidCommand = false;
 	ambiguousCommand = false;
 
@@ -375,7 +380,7 @@ void checkCommand(string _s) {
 				i++;
 				if (idxBuffer[i] == "t" || idxBuffer[i] == "terminal") {
 					mode = GLOBAL_CONFIGURATION_MODE;
-					cout << "Enter configuration commands, one per line.  End with CNTL/Z." << endl;
+					std::cout << "Enter configuration commands, one per line.  End with CNTL/Z." << std::endl;
 					break;
 				}
 			}
@@ -383,13 +388,13 @@ void checkCommand(string _s) {
 		}
 		if (idxBuffer[i] == "reload") {
 			reload = true;
-			cout << "System configuration has been modified.Save ? [yes / no] : ";
-			string yn;
-			cin >> yn;
+			std::cout << "System configuration has been modified.Save ? [yes / no] : ";
+      std::string yn;
+      std::cin >> yn;
 			//if (yn == "yes") memcpy(startupconfig, runningconfig, sizeof(runningconfig));
 			//else if (yn == "no")
-			cout << "Proceed with reload ? [confirm]";
-			cin >> yn;
+			std::cout << "Proceed with reload ? [confirm]";
+      std::cin >> yn;
 			break;
 		}
 
@@ -461,13 +466,13 @@ void checkCommand(string _s) {
 	} //*/
 
 	if (invalidCommand) {
-		//cout << "% Unknown command or computer name, or unable to find computer address" << endl;
-		cout << loopS(" ", PS1.length()) + "^" << endl;
-		cout << "\% Invalid input detected at '^' marker.\n" << endl;
+		//std::cout << "% Unknown command or computer name, or unable to find computer address" << std::endl;
+		std::cout << loopC(" ", PS1.length()) + "^" << std::endl;
+		std::cout << "\% Invalid input detected at '^' marker.\n" << std::endl;
 		commandBuffer[mode].pop_back();
 	}
 	else if (ambiguousCommand) {
-		cout << "\% Ambiguous command: \"" << idxBuffer[i] << "\"" << endl;
+		std::cout << "\% Ambiguous command: \"" << idxBuffer[i] << "\"" << std::endl;
 		commandBuffer[mode].pop_back();
 	}
 

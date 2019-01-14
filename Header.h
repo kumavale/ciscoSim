@@ -21,9 +21,7 @@
 #define UP					  0x48	// or Ctrl+P
 #define DOWN				  0x50	// or Ctrl+N
 
-
-using namespace std;
-
+//using namespace std;
 
 enum {
 	USER_EXEC_MODE,
@@ -36,7 +34,7 @@ enum {
 	MODE_MAX,
 };
 
-string prompto[MODE_MAX] = {
+std::string prompto[MODE_MAX] = {
 	"> ",				        // USER_EXEC_MODE,
 	"# ",				        // PRIVILEGED_EXEC_MODE,
 	"(config)# ",	  	  // GLOBAL_CONFIGURATION_MODE,
@@ -59,14 +57,14 @@ unsigned int limit;
 unsigned int limitM;
 unsigned int limitS;
 
-string s; // current command
-string h; // hostname
-string PS1 = prompto[USER_EXEC_MODE];
-string bunner;
-string MAC;
+std::string s; // current command
+std::string h; // hostname
+std::string PS1 = prompto[USER_EXEC_MODE];
+std::string bunner;
+std::string MAC;
 
 //  In fact, the default is only 10.    But for learning ;)
-vector<string> commandBuffer[MODE_MAX];
+std::vector<std::string> commandBuffer[MODE_MAX];
 
 bool suspend = true;
 bool reload;
@@ -80,10 +78,10 @@ int main();
 void init();
 void title();
 void timer();
-void display(string &_s);
-void prediction(string &_s);
-void completion(string &_s);
-void checkCommand(string _s);
-void inputConsole(string &_s);
+void display(std::string &_s);
+void prediction(std::string &_s);
+void completion(std::string &_s);
+void checkCommand(std::string _s);
+void inputConsole(std::string &_s);
 
-string loopS(string _s, const int _n);
+std::string loopC(std::string _s, const int _n);
