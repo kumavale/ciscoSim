@@ -1,17 +1,9 @@
 #pragma once
 
-#include <string>
+#include <iostream>
 
 #include <vector>
 
-
-//#define USER_EXEC_MODE					        ">"
-//#define PRIVILEGED_EXEC_MODE				    "#"
-//#define GLOBAL_CONFIGURATION_MODE			  "(config)#"
-//#define INTERFACE_CONFIGURATION_MODE		"(config-if)#"
-//#define CONFIG_VLAN_MODE					      "(config-vlan)#"
-//#define LINE_CONFIGURATION_MODE			    "(config-line)#"
-//#define ROM_MONITOR						          "ROM>"
 
 #define	CTRL_C			  0x03
 #define	BACK				  0x08
@@ -49,9 +41,6 @@ std::string prompto[MODE_MAX] = {
 int curX;  // PS1 + command Length
 int mode;
 int histMax = 10;
-int MACADDR[6] = {
-	0x43, 0x49, 0x53	// OUI
-};
 
 unsigned int limit;
 unsigned int limitM;
@@ -61,7 +50,7 @@ std::string s; // current command
 std::string h; // hostname
 std::string PS1 = prompto[USER_EXEC_MODE];
 std::string bunner;
-std::string MAC;
+std::string MAC = "00.00.00.00.00.00";
 
 //  In fact, the default is only 10.    But for learning ;)
 std::vector<std::string> commandBuffer[MODE_MAX];

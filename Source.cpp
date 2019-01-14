@@ -5,7 +5,6 @@
 #include <time.h>
 
 #include <Windows.h>
-#include <iostream>
 
 
 void init() {
@@ -13,18 +12,16 @@ void init() {
 	SetConsoleTitle("ciscoSim");
 
 	// reading and loading to config file
-  // バッファリングしない方がリアルっぽい? endl->\n
+  // バッファリングしない方がリアルっぽい?&&速い説  endl->\n
 	{
     std::cout
       << "C2960 Boot Loader (C2960-HBOOT-M) Version 12.2(25r)FX, RELEASE SOFTWARE (fc4)\n"
 		  << "Cisco WS-C2960-24TT (RC32300) processor (revision C0) with 21039K bytes of memory.\n"
 		  << "2960-24TT starting...\n"
 
-		  << "Base ethernet MAC Address: ";
-		for (int i = 3; i < 6; i++) { MACADDR[i] = rand() % 255; }
-		printf("%02X%02X.%02X%02X.%02X%02X\n", MACADDR[0], MACADDR[1], MACADDR[2], MACADDR[3], MACADDR[4], MACADDR[5]);
+		  << "Base ethernet MAC Address: "
+      << MAC << "\n"
 
-    std::cout
 		  << "Xmodem file system is available.\n"
 		  << "Initializing Flash...\n"
 		  << "flashfs[0]: 1 files, 0 directories\n"
@@ -40,6 +37,7 @@ void init() {
 
 		  << "Loading \"flash:/c2960-lanbase-mz.122-25.FX.bin\"...\n";
 		for (int i = 0; i++ < 74; std::cout << (i<74?"#":" [OK]\n")) Sleep(32);
+
     std::cout
 		  << "              Restricted Rights Legend\n\n"
 
@@ -65,9 +63,9 @@ void init() {
 		  << "2 Gigabit Ethernet/IEEE 802.3 interface(s)\n\n"
 
 		  << "63488K bytes of flash-simulated non-volatile configuration memory.\n"
-		  << "Base ethernet MAC Address       : ";
-		printf("%02X%02X.%02X%02X.%02X%02X\n", MACADDR[0], MACADDR[1], MACADDR[2], MACADDR[3], MACADDR[4], MACADDR[5]);
-    std::cout
+		  << "Base ethernet MAC Address       : "
+      << MAC << "\n"
+
 		  << "Motherboard assembly number     : 73-9832-06\n"
 		  << "Power supply part number        : 341-0097-02\n"
 		  << "Motherboard serial number       : FOC103248MJ\n"
