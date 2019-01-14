@@ -19,8 +19,7 @@ void init() {
 		  << "Cisco WS-C2960-24TT (RC32300) processor (revision C0) with 21039K bytes of memory.\n"
 		  << "2960-24TT starting...\n"
 
-		  << "Base ethernet MAC Address: "
-      << MAC << "\n"
+		  << "Base ethernet MAC Address: " << MAC << "\n"
 
 		  << "Xmodem file system is available.\n"
 		  << "Initializing Flash...\n"
@@ -63,8 +62,7 @@ void init() {
 		  << "2 Gigabit Ethernet/IEEE 802.3 interface(s)\n\n"
 
 		  << "63488K bytes of flash-simulated non-volatile configuration memory.\n"
-		  << "Base ethernet MAC Address       : "
-      << MAC << "\n"
+		  << "Base ethernet MAC Address       : " << MAC << "\n"
 
 		  << "Motherboard assembly number     : 73-9832-06\n"
 		  << "Power supply part number        : 341-0097-02\n"
@@ -89,6 +87,7 @@ void init() {
 		  << "Compiled Wed 12-Oct-05 22:05 by pt_team\n\n"
 
 		  << "Press RETURN to get started!\n\n";
+
 		while (suspend) {
 			switch (_getch())
 			{
@@ -176,8 +175,7 @@ void inputConsole(std::string &_s) {
     int columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 
 
-	//std::cout << "\r" + PS1;
-    std::cout << PS1;
+  std::cout << PS1;
 
 
 	while (1) {
@@ -248,7 +246,6 @@ void inputConsole(std::string &_s) {
 
 			if (_c == '?') {
 				prediction(_s);
-				//std::cout << "\b ";
 				_s.erase(_s.end() - 1);
 				display(_s);
 				curX--;
@@ -292,7 +289,6 @@ void title() {
 	lastTouch = time(nullptr);
 	suspend = true;
 	PS1 = h + prompto[mode];
-	//std::cout << "\r" + PS1;
 	std::cout << PS1;
 }
 
