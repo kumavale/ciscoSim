@@ -1,7 +1,8 @@
 @echo off
 echo Now compiling...
 
-if /i "%1"=="Release" (
+echo %* | find /I "Release" >nul
+if not errorlevel 1 (
   REM // Release
   g++ -Os -o ciscoSim.exe Source.cpp resource.o^
    && strip --strip-all ciscoSim.exe
