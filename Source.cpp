@@ -8,9 +8,6 @@
 
 
 void init() {
-
-	SetConsoleTitle("ciscoSim");
-
 	// reading and loading to config file
   // バッファリングしない方がリアルっぽい?&&速い説  endl->\n
 	{
@@ -114,6 +111,8 @@ void init() {
 
 		limitM = 10;
 		limitS = 0;
+		//limitM = 0;   // for debug
+		//limitS = 10;  // for debug
 
 		histMax = 10;
 
@@ -175,7 +174,7 @@ void inputConsole(std::string &_s) {
     int columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 
 
-  std::cout << PS1;
+  std::cout << "\r" << PS1;
 
 
 	while (1) {
@@ -269,6 +268,7 @@ std::string loopC(std::string _s, const int _n) {
 }
 
 void title() {
+	s.clear();
 	std::cout << loopC("\n",10) << "Switch con0 is now available\n";
 	std::cout << loopC("\n",6) << "Press RETURN to get started!" << loopC("\n",13);
 	while (suspend) {
@@ -486,6 +486,7 @@ void test() {
 }
 
 int main() {
+	SetConsoleTitle("ciscoSim");
   //test();
   init();
 	while (1) {
