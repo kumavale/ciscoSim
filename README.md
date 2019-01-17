@@ -2,9 +2,9 @@
 Simplistic Cisco Simulator
 
 ## Installing
-* excute exe
+* excute exe  
 Extract folder  
-* source compile
+* source compile  
 `g++ -o ciscoSim.exe Source.cpp resource.o`
 
 ## Usage
