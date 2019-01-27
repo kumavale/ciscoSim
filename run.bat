@@ -4,14 +4,14 @@ echo Now compiling...
 echo %* | find /I "Release" >nul
 if not errorlevel 1 (
   REM // Release
-  g++ -Os -o ciscoSim.exe Source.cpp resource.o^
+  g++ -Os -o ciscoSim.exe main.cpp -std=c++11 resource.o^
    && strip --strip-all ciscoSim.exe
   if errorlevel 1 (
     exit /B 1
   )
 ) else (
   REM // Debug
-  g++ -o ciscoSim.exe Source.cpp resource.o
+  g++ -o ciscoSim.exe main.cpp -std=c++11 resource.o
   if errorlevel 1 (
     exit /B 1
   )

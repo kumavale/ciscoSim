@@ -1,6 +1,6 @@
-#pragma once
 
 #include <iostream>
+#include <fstream>
 
 #include <vector>
 
@@ -27,13 +27,13 @@ enum {
 };
 
 std::string prompto[MODE_MAX] = {
-	"> ",				        // USER_EXEC_MODE,
-	"# ",				        // PRIVILEGED_EXEC_MODE,
-	"(config)# ",	  	  // GLOBAL_CONFIGURATION_MODE,
-	"(config-if)# ",		// INTERFACE_CONFIGURATION_MODE,
-	"(config-vlan)# ",	// CONFIG_VLAN_MODE,
-	"(config-line)# ",	// LINE_CONFIGURATION_MODE,
-	"ROM> ",				    // ROM_MONITOR,
+	">",				        // USER_EXEC_MODE,
+	"#",				        // PRIVILEGED_EXEC_MODE,
+	"(config)#",	  	  // GLOBAL_CONFIGURATION_MODE,
+	"(config-if)#",		// INTERFACE_CONFIGURATION_MODE,
+	"(config-vlan)#",	// CONFIG_VLAN_MODE,
+	"(config-line)#",	// LINE_CONFIGURATION_MODE,
+	"ROM>",				    // ROM_MONITOR,
 };
 
 
@@ -51,6 +51,7 @@ std::string h; // hostname
 std::string PS1 = prompto[USER_EXEC_MODE];
 std::string bunner;
 std::string MAC = "00.00.00.00.00.00";
+std::string IOS = "flash/c2960-lanbase-mz.122-25.FX.bin";
 
 //  In fact, the default is only 10.    But for learning ;)
 std::vector<std::string> commandBuffer[MODE_MAX];
@@ -63,7 +64,10 @@ bool ambiguousCommand;
 time_t now;
 time_t lastTouch;
 
-int main();
+//std::ofstream(flash\running-config);
+//std::FILE* running_config = std::tmpfile();
+
+int main(int argc, char* argv[]);
 void init();
 void title();
 void timer();
@@ -72,5 +76,10 @@ void prediction(std::string &_s);
 void completion(std::string &_s);
 void checkCommand(std::string _s);
 void inputConsole(std::string &_s);
+void boot(std::string _IOS);
 
+bool copyFile(std::string src, std::string dst);
+bool is_file_exists(const std::string& str);
+
+std::string Replace(std::string String1, std::string String2, std::string String3);
 std::string loopC(std::string _s, const int _n);

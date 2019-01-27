@@ -1,89 +1,54 @@
 
 #include "Header.h"
 
-#include <conio.h>
 #include <time.h>
+#include <filesystem>
 
-#include <Windows.h>
-
+#ifdef _WIN32
+  #include <conio.h>
+  #include <Windows.h>
+#else
+// ToDo
+char _getch(){
+  #include <unistd.h>   //_getch*/
+  #include <termios.h>  //_getch*/
+  char buf=0;
+  struct termios old={0};
+  fflush(stdout);
+  if(tcgetattr(0, &old)<0)
+    perror("tcsetattr()");
+  old.c_lflag&=~ICANON;
+  old.c_lflag&=~ECHO;
+  old.c_cc[VMIN]=1;
+  old.c_cc[VTIME]=0;
+  if(tcsetattr(0, TCSANOW, &old)<0)
+    perror("tcsetattr ICANON");
+  if(read(0,&buf,1)<0)
+    perror("read()");
+  old.c_lflag|=ICANON;
+  old.c_lflag|=ECHO;
+  if(tcsetattr(0, TCSADRAIN, &old)<0)
+    perror ("tcsetattr ~ICANON");
+  printf("%c\n",buf);
+  return buf;
+ }
+#endif
 
 void init() {
 	// reading and loading to config file
-  // バッファリングしない方がリアルっぽい?&&速い説  endl->\n
 	{
-    std::cout
-      << "C2960 Boot Loader (C2960-HBOOT-M) Version 12.2(25r)FX, RELEASE SOFTWARE (fc4)\n"
-		  << "Cisco WS-C2960-24TT (RC32300) processor (revision C0) with 21039K bytes of memory.\n"
-		  << "2960-24TT starting...\n"
+    boot(IOS);
 
-		  << "Base ethernet MAC Address: " << MAC << "\n"
+    //copyFile("flash/config.text", "flash/running-config");
 
-		  << "Xmodem file system is available.\n"
-		  << "Initializing Flash...\n"
-		  << "flashfs[0]: 1 files, 0 directories\n"
-		  << "flashfs[0]: 0 orphaned files, 0 orphaned directories\n"
-		  << "flashfs[0]: Total bytes: 64016384\n"
-		  << "flashfs[0]: Bytes used: 4414921\n"
-		  << "flashfs[0]: Bytes available: 59601463\n"
-		  << "flashfs[0]: flashfs fsck took 1 seconds.\n"
-		  << "...done Initializing Flash.\n\n"
+//std::ifstream ifs(running_config, std::ios::in | std::ios::binary);
+//char c;
+//if(!ifs) std::cout << "error!" << std::endl;
+//while (ifs.get(c)) {
+//  std::cout << c ;
+//}
 
-		  << "Boot Sector Filesystem (bs:) installed, fsid: 3\n"
-		  << "Parameter Block Filesystem (pb:) installed, fsid: 4\n\n\n"
-
-		  << "Loading \"flash:/c2960-lanbase-mz.122-25.FX.bin\"...\n";
-		for (int i = 0; i++ < 74; std::cout << (i<74?"#":" [OK]\n")) Sleep(32);
-
-    std::cout
-		  << "              Restricted Rights Legend\n\n"
-
-		  << "Use, duplication, or disclosure by the Government is\n"
-		  << "subject to restrictions as set forth in subparagraph\n"
-		  << "(c) of the Commercial Computer Software - Restricted\n"
-		  << "Rights clause at FAR sec. 52.227-19 and subparagraph\n"
-		  << "(c) (1) (ii) of the Rights in Technical Data and Computer\n"
-		  << "Software clause at DFARS sec. 252.227-7013.\n\n"
-
-		  << "           cisco Systems, Inc.\n"
-		  << "           170 West Tasman Drive\n"
-		  << "           San Jose, California 95134-1706\n\n\n\n\n"
-
-		  << "Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(25)FX, RELEASE SOFTWARE (fc1)\n"
-		  << "Copyright (c) 1986-2005 by Cisco Systems, Inc.\n"
-		  << "Compiled Wed 12-Oct-05 22:05 by pt_team\n"
-		  << "Image text-base: 0x80008098, data-base: 0x814129C4\n\n\n\n"
-
-		  << "Cisco WS-C2960-24TT (RC32300) processor (revision C0) with 21039K bytes of memory.\n\n\n"
-
-		  << "24 FastEthernet/IEEE 802.3 interface(s)\n"
-		  << "2 Gigabit Ethernet/IEEE 802.3 interface(s)\n\n"
-
-		  << "63488K bytes of flash-simulated non-volatile configuration memory.\n"
-		  << "Base ethernet MAC Address       : " << MAC << "\n"
-
-		  << "Motherboard assembly number     : 73-9832-06\n"
-		  << "Power supply part number        : 341-0097-02\n"
-		  << "Motherboard serial number       : FOC103248MJ\n"
-		  << "Power supply serial number      : DCA102133JA\n"
-		  << "Model revision number           : B0\n"
-		  << "Motherboard revision number     : C0\n"
-		  << "Model number                    : WS-C2960-24TT\n"
-		  << "System serial number            : FOC1033Z1EY\n"
-		  << "Top Assembly Part Number        : 800-26671-02\n"
-		  << "Top Assembly Revision Number    : B0\n"
-		  << "Version ID                      : V02\n"
-		  << "CLEI Code Number                : COM3K00BRA\n"
-		  << "Hardware Board Revision Number  : 0x01\n\n\n"
-
-		  << "Switch   Ports  Model              SW Version              SW Image\n"
-		  << "------   -----  -----              ----------              ----------\n"
-		  << "*    1   26     WS-C2960-24TT      12.2                    C2960-LANBASE-M\n\n"
-
-		  << "Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(25)FX, RELEASE SOFTWARE (fc1)\n"
-		  << "Copyright (c) 1986-2005 by Cisco Systems, Inc.\n"
-		  << "Compiled Wed 12-Oct-05 22:05 by pt_team\n\n"
-
-		  << "Press RETURN to get started!\n\n";
+    std::cout << "Press RETURN to get started!\n\n";
 
 		while (suspend) {
 			switch (_getch())
@@ -485,8 +450,70 @@ void test() {
 	}
 }
 
-int main() {
+void boot(std::string _IOS){
+  // IOSのファイルはテキストファイルでは無く、実行ファイルにし、
+  // この boot関数 では、その実行ファイルを実行する
+  std::ifstream ifs(_IOS, std::ios::in);
+  std::string st;
+  if (!ifs) {
+    mode = ROM_MONITOR;
+    return;
+  }
+  while (getline(ifs, st)) {
+    st = Replace(st, "\\n", "\n");
+    if (st == "!roading!") {
+      getline(ifs, st);
+      st = Replace(st, "\\n", "\n");
+      std::cout << "Loading \"flash:/" << IOS << "\"...\n";
+		  for (int i = 0; i++ < 74; std::cout << (i<74?"#":" [OK]\n")) Sleep(32);
+    }
+    std::cout << st ;
+  }
+}
+
+std::string Replace( std::string String1, std::string String2, std::string String3 ) {
+    std::string::size_type  Pos( String1.find( String2 ) );
+    while( Pos != std::string::npos ) {
+        String1.replace( Pos, String2.length(), String3 );
+        Pos = String1.find( String2, Pos + String3.length() );
+    }
+    return String1;
+}
+
+bool is_file_exists(const std::string& str) {
+  std::ifstream fs(str);
+  return fs.is_open();
+}
+
+/*
+bool copyFile(std::string src, std::string dst){
+  char c;
+  std::ifstream ifs(src, std::ios::in | std::ios::binary);
+  std::ofstream ofs(dst, std::ios::out);
+  if (!ifs) return false;
+  if (!ofs) return false;
+
+  std::filesystem::copy(src, dst);
+
+  ifs.close();
+  ofs.close();
+
+  if (!ifs) return false;
+  if (!ofs) return false;
+
+  return true;
+} //*/
+
+int main(int argc, char* argv[]) {
 	SetConsoleTitle("ciscoSim");
+  if (argc == 2) {
+    if (is_file_exists(argv[1])) {
+      IOS=argv[1];
+    } else {
+      std::cout << "invalid args..." << std::endl;
+		  exit(0);
+    }
+  }
   //test();
   init();
 	while (1) {
