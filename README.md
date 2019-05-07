@@ -1,15 +1,14 @@
 # ciscoSim
 Simplistic Cisco Simulator
 
-## Installing
-As it is run  
- `./ciscoSim.exe`  
-or source compile  
-`g++ -o ciscoSim.exe main.cpp resource.o`
+## Compile
+`g++ -o ciscoSim.exe main.cpp resource.o`  
+or `run.bat release`
 
 ## Usage
-`ciscoSim.exe [IOS Path]`
-You can quit at any time by pressing the `Ctrl+C` key.
+As it is run  
+`ciscoSim.exe [IOS Path]`  
+You can quit at any time by pressing the `ESC` key.
 
 ## Environment
 Windows10

@@ -78,7 +78,8 @@ void checkCommand(std::string _s);
 void inputConsole(std::string &_s);
 void boot(std::string _IOS);
 
-bool copyFile(std::string src, std::string dst);
+void copyFile(std::string src, std::string dst);
+//void copyFile(char * const from[], char * const to[]);
 bool is_file_exists(const std::string& str);
 
 std::string Replace(std::string String1, std::string String2, std::string String3);

@@ -1,47 +1,57 @@
 
-#include "Header.h"
+#include "header.hpp"
 
 #include <time.h>
-#include <filesystem>
+#include <thread>
 
 #ifdef _WIN32
   #include <conio.h>
   #include <Windows.h>
 #else
 // ToDo
-char _getch(){
-  #include <unistd.h>   //_getch*/
-  #include <termios.h>  //_getch*/
-  char buf=0;
-  struct termios old={0};
-  fflush(stdout);
-  if(tcgetattr(0, &old)<0)
-    perror("tcsetattr()");
-  old.c_lflag&=~ICANON;
-  old.c_lflag&=~ECHO;
-  old.c_cc[VMIN]=1;
-  old.c_cc[VTIME]=0;
-  if(tcsetattr(0, TCSANOW, &old)<0)
-    perror("tcsetattr ICANON");
-  if(read(0,&buf,1)<0)
-    perror("read()");
-  old.c_lflag|=ICANON;
-  old.c_lflag|=ECHO;
-  if(tcsetattr(0, TCSADRAIN, &old)<0)
-    perror ("tcsetattr ~ICANON");
-  printf("%c\n",buf);
-  return buf;
- }
+int _getch(){
+    #include <termios.h>
+    #include <fcntl.h>
+    char ch;
+    struct termios t;
+    tcgetattr(0, &t);
+    t.c_lflag &= ~(ECHO|ICANON);
+    tcsetattr(0, TCSANOW, &t);
+    ch = getchar();
+    tcsetattr(0, TCSADRAIN, &t);
+    return ch;
+}
+/*
+int _kbhit() {
+    int ch, of;
+    struct termios ot, nt;
+    tcgetattr(0, &ot);
+    nt = ot;
+    nt.c_lflag &= ~(ECHO|ICANON);
+    tcsetattr(0, TCSANOW, &nt);
+    of = fcntl(0, F_GETFL, 0);
+    fcntl(0, F_SETFL, of | O_NONBLOCK);
+    ch = getchar();
+    tcsetattr(0, TCSANOW, &ot);
+    fcntl(0, F_SETFL, of);
+    if (ch != EOF) {
+        ungetc(ch, stdin);
+        return 1;
+    }
+    return 0;
+} //*/
 #endif
 
 void init() {
 	// reading and loading to config file
 	{
-    boot(IOS);
+    auto roading = std::thread([](){ boot(IOS); });
+    copyFile("flash\\config.text", "flash\\running-config");
+    //boot(IOS);
+    roading.join();
 
-    //copyFile("flash/config.text", "flash/running-config");
-
-//std::ifstream ifs(running_config, std::ios::in | std::ios::binary);
+// Debug
+//std::ifstream ifs("flash\\running-config", std::ios::in | std::ios::binary);
 //char c;
 //if(!ifs) std::cout << "error!" << std::endl;
 //while (ifs.get(c)) {
@@ -56,9 +66,13 @@ void init() {
 			case RETURN:
 				suspend = false;
 				break;
-			//case ESC:
-      case CTRL_C:
+			case ESC: {
+      //case CTRL_C: {
+        std::remove("flash\\running-config");
+        //auto dell = std::thread([](){ std::remove("flash\\running-config"); });
+        //dell.join();
 				exit(0);
+        }
 			default:
 				break;
 			}
@@ -143,7 +157,7 @@ void inputConsole(std::string &_s) {
 
 
 	while (1) {
-		if (_kbhit() && (_c = _getch())) {
+		if (/*_kbhit() && */(_c = _getch())) {
 			if (_c == 0xFFFFFFE0)
 			{
 				_c = _getch();
@@ -197,7 +211,10 @@ void inputConsole(std::string &_s) {
 				if (s != "") return;
 				std::cout << PS1;
 				break;
-			case CTRL_C: exit(0); break;
+			case ESC:
+			//case CTRL_C:
+        std::remove("flash\\running-config");
+        exit(0);
 			default:
         if (_c >= 32 && _c <= 125) {
           _s += _c;
@@ -242,8 +259,9 @@ void title() {
 		case RETURN:
 			suspend = false;
 			break;
-		//case ESC:
+		case ESC:
     case CTRL_C:
+      std::remove("flash\\running-config");
 			exit(0);
 		default:
 			break;
@@ -485,30 +503,26 @@ bool is_file_exists(const std::string& str) {
   return fs.is_open();
 }
 
-/*
-bool copyFile(std::string src, std::string dst){
-  char c;
-  std::ifstream ifs(src, std::ios::in | std::ios::binary);
-  std::ofstream ofs(dst, std::ios::out);
-  if (!ifs) return false;
-  if (!ofs) return false;
+///*
+void copyFile(std::string src, std::string dst) {
+char buf[128];
 
-  std::filesystem::copy(src, dst);
+#ifdef _WIN32
+  sprintf(buf, "copy %s %s >nul", src.c_str(), dst.c_str());
+  //printf("src:%s\ndst:%s\nbuf:%s\n", src, dst, buf);
+#else
+  sprintf(buf, "cp %s %s > /dev/null", src.c_str(), dst.c_str());
+#endif
+system(buf);
 
-  ifs.close();
-  ofs.close();
-
-  if (!ifs) return false;
-  if (!ofs) return false;
-
-  return true;
 } //*/
+
 
 int main(int argc, char* argv[]) {
 	SetConsoleTitle("ciscoSim");
   if (argc == 2) {
     if (is_file_exists(argv[1])) {
-      IOS=argv[1];
+      IOS=argv[1]; // flash/~~
     } else {
       std::cout << "invalid args..." << std::endl;
 		  exit(0);
